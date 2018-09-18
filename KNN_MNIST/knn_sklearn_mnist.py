@@ -5,6 +5,8 @@ import pdb
 import time
 from sklearn import neighbors
 import sklearn
+from sklearn.metrics import accuracy_score
+import matplotlib.pyplot as plt
 
 def toInt(array):
     array=mat(array)
@@ -126,6 +128,31 @@ def Test():
 	predictFile.close()
 	saveResult(resultList)
 
+def k_accuracy_plot(max_k = 45):
+	plt.grid(True)
+	plt.xlabel("k")
+	plt.ylabel("Accuracy")
+	plt.xlim([0, max_k + 5])
+	plt.xticks(range(0, max_k + 5, 5))
+	return plt
+	
+def Test_one_sample():
+	trainData,trainLabel=loadTrainData()
+	testData=loadTestData()
+	testLabel=loadTestResult()
+	print(shape(testLabel))
+
+	scores = []
+	max_k = 5
+	for k in range(1, max_k):
+		knn = neighbors.KNeighborsClassifier(n_neighbors = k)
+		knn.fit(trainData, transpose(trainLabel))
+		Y_pred = knn.predict(testData[0].reshape(1,-1))
+		scores.append(accuracy_score(testLabel[:,0], Y_pred))
+	pp = k_accuracy_plot()
+	pp.plot(range(1, max_k), scores)
+	pp.show()
+
 def main():
-	Test()
+	Test_one_sample()
 main()
