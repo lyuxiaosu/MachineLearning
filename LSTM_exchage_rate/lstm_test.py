@@ -547,7 +547,7 @@ def plotMetrics2(lstm_evs, reg_evs, avg_evs, lstm_mse, reg_mse, avg_mse, lstm_ma
 np.random.seed(7)
 
 #read exchage_rate.csv
-df = readData("exchange_rate_new.csv")
+df = readData("exchange_rate.csv")
 df_copy = df.copy()
 print(df.columns)
 
@@ -641,7 +641,7 @@ model.summary()
 
 #fit model
 #model.fit(X_train, Y_train, epochs=300, batch_size=128, validation_data=(X_val, Y_val), callbacks=[callback])
-history = model.fit(X_train, Y_train, epochs=5, batch_size=10, validation_data=(X_val, Y_val), verbose = 2)
+history = model.fit(X_train, Y_train, epochs=350, batch_size=10, validation_data=(X_val, Y_val), verbose = 2)
 
 #predict with the model
 y_predicted = model.predict(X_val)
@@ -720,7 +720,7 @@ save_path_future = folder_prefix + "_future"
 
 nan_array = np.empty_like(y_predicted)
 nan_array.fill(np.nan)
-plotManyToManyImage(X_val, Y_val, date_val, y_predicted, reg_predicted_y, simple_avg_predicted_y, nan_array, target_column_index, Y_val.shape[0], save_path_past)
+plotManyToManyImage(X_val, Y_val, date_val, y_predicted, reg_predicted_y, simple_avg_predicted_y, target_column_index, Y_val.shape[0], save_path_past)
 
 predicted_y = predicted_y[:,:, np.newaxis]
 nan_array = np.empty_like(future_y)
